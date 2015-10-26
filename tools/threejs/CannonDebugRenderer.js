@@ -1,5 +1,3 @@
-module.exports = THREE.CannonDebugRenderer;
-
 var Vec3 = require('../../src/math/Vec3.js');
 var Sphere = require('../../src/shapes/Sphere');
 var Box = require('../../src/shapes/Box');
@@ -8,7 +6,9 @@ var ConvexPolyhedron = require('../../src/shapes/ConvexPolyhedron');
 var Trimesh = require('../../src/shapes/Trimesh');
 var Heightfield = require('../../src/shapes/Heightfield');
 var Shape = require('../../src/shapes/Shape');
-var THREE = require('three');
+var THREE = require('three.js');
+
+module.exports = THREE.CannonDebugRenderer;
 
 /**
  * Adds Three.js primitives into the scene where all the Cannon bodies and shapes are.

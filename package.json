@@ -38,8 +38,9 @@
     "grunt-contrib-yuidoc": "^0.5.2",
     "jshint": "latest",
     "nodeunit": "^0.9.0",
-    "three.js": "http://github.com/eqyiel/three.js.git#eqyiel",
     "uglify-js": "latest"
   },
-  "dependencies": {}
+  "dependencies": {
+    "three.js": "http://github.com/eqyiel/three.js.git#eqyiel"
+  }
 }
