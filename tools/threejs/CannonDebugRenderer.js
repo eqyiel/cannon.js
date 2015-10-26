@@ -1,4 +1,14 @@
-/* global CANNON,THREE,Detector */
+module.exports = THREE.CannonDebugRenderer;
+
+var Vec3 = require('../../src/math/Vec3.js');
+var Sphere = require('../../src/shapes/Sphere');
+var Box = require('../../src/shapes/Box');
+var Plane = require('../../src/shapes/Plane');
+var ConvexPolyhedron = require('../../src/shapes/ConvexPolyhedron');
+var Trimesh = require('../../src/shapes/Trimesh');
+var Heightfield = require('../../src/shapes/Heightfield');
+var Shape = require('../../src/shapes/Shape');
+var THREE = require('three');
 
 /**
  * Adds Three.js primitives into the scene where all the Cannon bodies and shapes are.
@@ -24,10 +34,10 @@ THREE.CannonDebugRenderer = function(scene, world, options){
 
 THREE.CannonDebugRenderer.prototype = {
 
-    tmpVec0: new CANNON.Vec3(),
-    tmpVec1: new CANNON.Vec3(),
-    tmpVec2: new CANNON.Vec3(),
-    tmpQuat0: new CANNON.Vec3(),
+    tmpVec0: new Vec3(),
+    tmpVec1: new Vec3(),
+    tmpVec2: new Vec3(),
+    tmpQuat0: new Vec3(),
 
     update: function(){
 
@@ -93,12 +103,12 @@ THREE.CannonDebugRenderer.prototype = {
         }
         var geo = mesh.geometry;
         return (
-            (geo instanceof THREE.SphereGeometry && shape instanceof CANNON.Sphere) ||
-            (geo instanceof THREE.BoxGeometry && shape instanceof CANNON.Box) ||
-            (geo instanceof THREE.PlaneGeometry && shape instanceof CANNON.Plane) ||
-            (geo.id === shape.geometryId && shape instanceof CANNON.ConvexPolyhedron) ||
-            (geo.id === shape.geometryId && shape instanceof CANNON.Trimesh) ||
-            (geo.id === shape.geometryId && shape instanceof CANNON.Heightfield)
+            (geo instanceof THREE.SphereGeometry && shape instanceof Sphere) ||
+            (geo instanceof THREE.BoxGeometry && shape instanceof Box) ||
+            (geo instanceof THREE.PlaneGeometry && shape instanceof Plane) ||
+            (geo.id === shape.geometryId && shape instanceof ConvexPolyhedron) ||
+            (geo.id === shape.geometryId && shape instanceof Trimesh) ||
+            (geo.id === shape.geometryId && shape instanceof Heightfield)
         );
     },
 
@@ -108,19 +118,19 @@ THREE.CannonDebugRenderer.prototype = {
 
         switch(shape.type){
 
-        case CANNON.Shape.types.SPHERE:
+        case Shape.types.SPHERE:
             mesh = new THREE.Mesh(this._sphereGeometry, material);
             break;
 
-        case CANNON.Shape.types.BOX:
+        case Shape.types.BOX:
             mesh = new THREE.Mesh(this._boxGeometry, material);
             break;
 
-        case CANNON.Shape.types.PLANE:
+        case Shape.types.PLANE:
             mesh = new THREE.Mesh(this._planeGeometry, material);
             break;
 
-        case CANNON.Shape.types.CONVEXPOLYHEDRON:
+        case Shape.types.CONVEXPOLYHEDRON:
             // Create mesh
             var geo = new THREE.Geometry();
 
@@ -148,7 +158,7 @@ THREE.CannonDebugRenderer.prototype = {
             shape.geometryId = geo.id;
             break;
 
-        case CANNON.Shape.types.TRIMESH:
+        case Shape.types.TRIMESH:
             var geometry = new THREE.Geometry();
             var v0 = this.tmpVec0;
             var v1 = this.tmpVec1;
@@ -169,7 +179,7 @@ THREE.CannonDebugRenderer.prototype = {
             shape.geometryId = geometry.id;
             break;
 
-        case CANNON.Shape.types.HEIGHTFIELD:
+        case Shape.types.HEIGHTFIELD:
             var geometry = new THREE.Geometry();
 
             var v0 = this.tmpVec0;
@@ -212,25 +222,25 @@ THREE.CannonDebugRenderer.prototype = {
     _scaleMesh: function(mesh, shape){
         switch(shape.type){
 
-        case CANNON.Shape.types.SPHERE:
+        case Shape.types.SPHERE:
             var radius = shape.radius;
             mesh.scale.set(radius, radius, radius);
             break;
 
-        case CANNON.Shape.types.BOX:
+        case Shape.types.BOX:
             mesh.scale.copy(shape.halfExtents);
             mesh.scale.multiplyScalar(2);
             break;
 
-        case CANNON.Shape.types.CONVEXPOLYHEDRON:
+        case Shape.types.CONVEXPOLYHEDRON:
             mesh.scale.set(1,1,1);
             break;
 
-        case CANNON.Shape.types.TRIMESH:
+        case Shape.types.TRIMESH:
             mesh.scale.copy(shape.scale);
             break;
 
-        case CANNON.Shape.types.HEIGHTFIELD:
+        case Shape.types.HEIGHTFIELD:
             mesh.scale.set(1,1,1);
             break;
 
